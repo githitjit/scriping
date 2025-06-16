@@ -59,8 +59,12 @@ def fetch_image_urls(url):
             if not next_page_url.endswith('.jpg') and not next_page_url.endswith('.gif') :#and not next_page_url.startswith('http:'):
                 next_page_url_array.append(next_page_url)
     print(f"next_page_url_array: {next_page_url_array}")
-    next_url = next_page_url_array[random.randint(0, len(next_page_url_array) - 1)]
-    print(f"next_url: {next_url}")
+    if next_page_url_array:
+        next_url = next_page_url_array[random.randint(0, len(next_page_url_array) - 1)]
+        print(f"next_url: {next_url}")
+    else:
+        next_url = ''
+        print("No next page found")
     return img_urls,next_url
 
 def download_images(img_urls, folder_path):
@@ -84,8 +88,11 @@ def main(target_url):
             download_images(urls[0], folder_path)
         print(f"Downloaded {len(urls[0])} images to {folder_path}")
     
-    print(f"Next Downloading images from {urls[1]}")
-    main(urls[1])
+    if urls[1]:  # Check if next_url exists
+        print(f"Next Downloading images from {urls[1]}")
+        main(urls[1])
+    else:
+        print("No more pages to process")
 
 if __name__ == "__main__":
-    main('https://www.eropuru.com/okini/30548.html')
+    main('https://bakufu.jp/archives/category/av%e7%b4%a0%e4%ba%ba')
